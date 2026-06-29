@@ -78,13 +78,23 @@ void Wordweb::GUI_Panel::process_input_box(wxCommandEvent& event)
 
 	if(input_tokens[0][0] == '/') // A command (/join, /msg, etc)
 	{
+		if(input_tokens[0].compare("/connect"))
+		{
+			wxIPV4address address{};
+			address.Hostname(input_tokens[1]);
+			address.Service(6667);
 
+			client->Connect(address);
+		}
 	}
 
 	else // Treat as message
 	{
-
+		if(!connected)
+		{
+			chat_win->AppendText("Not connected to any server\n");
+		}
 	}
-	
+
 	input_box->SetValue("");
 }
